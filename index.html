@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tax Refund Calculator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 960px;
+            margin: auto;
+        }
+
+        button {
+            margin: 5px 5px 0 0;
+        }
+
+        label,
+        select,
+        input,
+        button {
+            display: block;
+            margin: 10px 0;
+        }
+
+        .lang_set {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        button {
+            width: 100px;
+            height: 40px;
+        }
+
+        .main_area {
+            margin: 0 auto;
+            display: grid;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div>
+        <ul class="lang_set">
+            <li><button onclick="setLanguage('ja')">日本語</button></li>
+            <li><button onclick="setLanguage('en')">English</button></li>
+            <li><button onclick="setLanguage('zh')">中文</button></li>
+            <li><button onclick="setLanguage('zh_tw')">繁體中文</button></li>
+            <li><button onclick="setLanguage('ko')">한국어</button></li>
+            <li><button onclick="setLanguage('th')">ไทย</button></li>
+            <li><button onclick="setLanguage('fr')">Français</button></li>
+            <li><button onclick="setLanguage('ru')">Русский</button></li>
+            <li><button onclick="setLanguage('id')">Bahasa Indonesia</button></li>
+        </ul>
+    </div>
+
+    <div class="main_area">
+        <h1 id="title">Tax Refund Calculator</h1>
+
+        <label for="price" id="labelPrice">Enter the total price (incl. tax):</label>
+        <input type="number" id="price" placeholder="e.g. 1100">
+
+        <label for="taxRate" id="labelTax">Select tax rate:</label>
+        <select id="taxRate">
+            <option value="0.10">10%</option>
+            <option value="0.08">8%</option>
+        </select>
+
+        <button onclick="calculateRefund()" id="calculateBtn">Calculate</button>
+
+        <h2 id="resultTitle">Results</h2>
+        <p id="taxExcluded">Tax Excluded Price: </p>
+        <p id="refund">Refund Amount: </p>
+        <p id="final">Final Payment: </p>
+    </div>
+
+    <script>
+        const translations = {
+            ja: {
+                title: "免税計算機",
+                labelPrice: "商品の税込金額（円）を入力してください:",
+                labelTax: "税率を選択:",
+                calculateBtn: "計算する",
+                resultTitle: "計算結果",
+                taxExcluded: "税抜金額: ",
+                refund: "返金金額: ",
+                final: "実際の支払額: "
+            },
+            en: {
+                title: "Tax Refund Calculator",
+                labelPrice: "Enter the total price (incl. tax):",
+                labelTax: "Select tax rate:",
+                calculateBtn: "Calculate",
+                resultTitle: "Results",
+                taxExcluded: "Tax Excluded Price: ",
+                refund: "Refund Amount: ",
+                final: "Final Payment: "
+            },
+            zh: {
+                title: "退税计算器",
+                labelPrice: "请输入商品含税金额：",
+                labelTax: "选择税率：",
+                calculateBtn: "计算",
+                resultTitle: "计算结果",
+                taxExcluded: "税前金额：",
+                refund: "退税金额：",
+                final: "实际支付金额："
+            },
+            zh_tw: {
+                title: "退稅計算器",
+                labelPrice: "請輸入商品含稅金額：",
+                labelTax: "選擇稅率：",
+                calculateBtn: "計算",
+                resultTitle: "計算結果",
+                taxExcluded: "未稅金額：",
+                refund: "退稅金額：",
+                final: "實際支付金額："
+            },
+            ko: {
+                title: "면세 계산기",
+                labelPrice: "상품의 세금 포함 금액 입력:",
+                labelTax: "세율 선택:",
+                calculateBtn: "계산",
+                resultTitle: "결과",
+                taxExcluded: "세전 금액: ",
+                refund: "환급 금액: ",
+                final: "실제 지불 금액: "
+            },
+            th: {
+                title: "เครื่องคำนวณภาษีคืน",
+                labelPrice: "กรอกราคารวมภาษี:",
+                labelTax: "เลือกอัตราภาษี:",
+                calculateBtn: "คำนวณ",
+                resultTitle: "ผลลัพธ์",
+                taxExcluded: "ราคาก่อนภาษี: ",
+                refund: "จำนวนเงินคืนภาษี: ",
+                final: "จำนวนที่ต้องชำระจริง: "
+            },
+            fr: {
+                title: "Calculateur de remboursement de taxe",
+                labelPrice: "Entrez le prix TTC :",
+                labelTax: "Sélectionnez le taux de TVA :",
+                calculateBtn: "Calculer",
+                resultTitle: "Résultats",
+                taxExcluded: "Prix hors taxe : ",
+                refund: "Montant du remboursement : ",
+                final: "Montant final payé : "
+            },
+            ru: {
+                title: "Калькулятор возврата налога",
+                labelPrice: "Введите сумму с налогом:",
+                labelTax: "Выберите налоговую ставку:",
+                calculateBtn: "Рассчитать",
+                resultTitle: "Результаты",
+                taxExcluded: "Сумма без налога: ",
+                refund: "Сумма возврата: ",
+                final: "Фактическая сумма оплаты: "
+            },
+            id: {
+                title: "Kalkulator Pengembalian Pajak",
+                labelPrice: "Masukkan harga termasuk pajak:",
+                labelTax: "Pilih tarif pajak:",
+                calculateBtn: "Hitung",
+                resultTitle: "Hasil",
+                taxExcluded: "Harga sebelum pajak: ",
+                refund: "Jumlah pengembalian pajak: ",
+                final: "Jumlah pembayaran akhir: "
+            }
+        };
+
+        let currentLang = "en";
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            document.getElementById("title").innerText = t.title;
+            document.getElementById("labelPrice").innerText = t.labelPrice;
+            document.getElementById("labelTax").innerText = t.labelTax;
+            document.getElementById("calculateBtn").innerText = t.calculateBtn;
+            document.getElementById("resultTitle").innerText = t.resultTitle;
+            document.getElementById("taxExcluded").innerText = t.taxExcluded;
+            document.getElementById("refund").innerText = t.refund;
+            document.getElementById("final").innerText = t.final;
+        }
+
+        function calculateRefund() {
+            const price = parseFloat(document.getElementById('price').value);
+            const taxRate = parseFloat(document.getElementById('taxRate').value);
+
+            if (isNaN(price) || price <= 0) {
+                alert("Please enter a valid price.");
+                return;
+            }
+
+            const taxExcluded = price / (1 + taxRate);
+            const taxAmount = price - taxExcluded;
+            const fee = taxExcluded * 0.0155;
+            const refund = taxAmount - fee;
+            const finalPrice = price - refund;
+
+            const t = translations[currentLang];
+            document.getElementById("taxExcluded").innerText = `${t.taxExcluded}¥${taxExcluded.toFixed(2)}`;
+            document.getElementById("refund").innerText = `${t.refund}¥${refund.toFixed(2)}`;
+            document.getElementById("final").innerText = `${t.final}¥${finalPrice.toFixed(2)}`;
+        }
+
+        setLanguage('en');
+    </script>
+
+</body>
+
+</html>
