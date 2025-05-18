@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tax Refund Calculator</title>
     <style>
         * {
@@ -26,17 +27,31 @@
         button {
             display: block;
             margin: 10px 0;
+            width: 100%;
+        }
+
+        input,
+        select {
+            padding: 8px;
+            font-size: 1em;
         }
 
         .lang_set {
             list-style: none;
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
+            padding: 0;
+        }
+
+        .lang_set li {
+            margin: 5px;
         }
 
         button {
             width: 100px;
             height: 40px;
+            font-size: 1em;
         }
 
         .main_area {
@@ -44,11 +59,16 @@
             display: grid;
             justify-content: center;
         }
+
+        footer {
+            text-align: center;
+            font-size: 0.9em;
+            margin-top: 40px;
+        }
     </style>
 </head>
 
 <body>
-
 
     <div>
         <ul class="lang_set">
@@ -81,8 +101,22 @@
         <h2 id="resultTitle">Results</h2>
         <p id="taxExcluded">Tax Excluded Price: </p>
         <p id="refund">Refund Amount: </p>
+        <p id="fee">Handling Fee: </p>
         <p id="final">Final Payment: </p>
     </div>
+
+    <footer>
+        <p>
+            © 2025 ZHANG XINGTIAN<br>
+            This work is licensed under
+            <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">
+                CC BY-NC-ND 4.0
+            </a>
+        </p>
+        <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">
+            <img src="https://licensebuttons.net/l/by-nc-nd/4.0/88x31.png" alt="CC BY-NC-ND 4.0">
+        </a>
+    </footer>
 
     <script>
         const translations = {
@@ -94,6 +128,7 @@
                 resultTitle: "計算結果",
                 taxExcluded: "税抜金額: ",
                 refund: "返金金額: ",
+                fee: "手数料: ",
                 final: "実際の支払額: "
             },
             en: {
@@ -104,6 +139,7 @@
                 resultTitle: "Results",
                 taxExcluded: "Tax Excluded Price: ",
                 refund: "Refund Amount: ",
+                fee: "Handling Fee: ",
                 final: "Final Payment: "
             },
             zh: {
@@ -114,6 +150,7 @@
                 resultTitle: "计算结果",
                 taxExcluded: "税前金额：",
                 refund: "退税金额：",
+                fee: "手续费：",
                 final: "实际支付金额："
             },
             zh_tw: {
@@ -124,6 +161,7 @@
                 resultTitle: "計算結果",
                 taxExcluded: "未稅金額：",
                 refund: "退稅金額：",
+                fee: "手續費：",
                 final: "實際支付金額："
             },
             ko: {
@@ -134,6 +172,7 @@
                 resultTitle: "결과",
                 taxExcluded: "세전 금액: ",
                 refund: "환급 금액: ",
+                fee: "수수료: ",
                 final: "실제 지불 금액: "
             },
             th: {
@@ -144,6 +183,7 @@
                 resultTitle: "ผลลัพธ์",
                 taxExcluded: "ราคาก่อนภาษี: ",
                 refund: "จำนวนเงินคืนภาษี: ",
+                fee: "ค่าธรรมเนียม: ",
                 final: "จำนวนที่ต้องชำระจริง: "
             },
             fr: {
@@ -154,6 +194,7 @@
                 resultTitle: "Résultats",
                 taxExcluded: "Prix hors taxe : ",
                 refund: "Montant du remboursement : ",
+                fee: "Frais de traitement : ",
                 final: "Montant final payé : "
             },
             ru: {
@@ -164,6 +205,7 @@
                 resultTitle: "Результаты",
                 taxExcluded: "Сумма без налога: ",
                 refund: "Сумма возврата: ",
+                fee: "Плата за обработку: ",
                 final: "Фактическая сумма оплаты: "
             },
             id: {
@@ -174,6 +216,7 @@
                 resultTitle: "Hasil",
                 taxExcluded: "Harga sebelum pajak: ",
                 refund: "Jumlah pengembalian pajak: ",
+                fee: "Biaya penanganan: ",
                 final: "Jumlah pembayaran akhir: "
             }
         };
@@ -190,6 +233,7 @@
             document.getElementById("resultTitle").innerText = t.resultTitle;
             document.getElementById("taxExcluded").innerText = t.taxExcluded;
             document.getElementById("refund").innerText = t.refund;
+            document.getElementById("fee").innerText = t.fee;
             document.getElementById("final").innerText = t.final;
         }
 
@@ -211,6 +255,7 @@
             const t = translations[currentLang];
             document.getElementById("taxExcluded").innerText = `${t.taxExcluded}¥${taxExcluded.toFixed(2)}`;
             document.getElementById("refund").innerText = `${t.refund}¥${refund.toFixed(2)}`;
+            document.getElementById("fee").innerText = `${t.fee}¥${fee.toFixed(2)}`;
             document.getElementById("final").innerText = `${t.final}¥${finalPrice.toFixed(2)}`;
         }
 
