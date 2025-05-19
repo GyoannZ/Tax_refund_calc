@@ -10,10 +10,10 @@ The app is published on GitHub Pages and is accessible via smartphones and PC br
 
 ## 主な機能 / Features
 
-- 消費税率10%・8%に対応（軽減税率あり）  
+- 消費税率 10%・8%に対応（軽減税率あり）  
   Supports 10% and 8% tax rates (including reduced tax rate)
 
-- 手数料1.55%を自動計算  
+- 手数料 1.55%を自動計算  
   Automatically calculates a 1.55% handling fee
 
 - 実際の支払金額・免税金額を即時表示  
@@ -35,7 +35,7 @@ The app is published on GitHub Pages and is accessible via smartphones and PC br
 
 ## 使用技術 / Technologies
 
-- HTML / CSS / JavaScript  
+- HTML / CSS / JavaScript
 - 言語切り替え（簡易 i18n）  
   Simple language-switching logic (i18n)
 
@@ -44,16 +44,16 @@ The app is published on GitHub Pages and is accessible via smartphones and PC br
 ## 利用方法 / How to Use
 
 1. 商品金額を入力  
-   Enter the product price  
+   Enter the product price
 2. 消費税率（10% または 8%）を選択  
-   Select the tax rate (10% or 8%)  
+   Select the tax rate (10% or 8%)
 3. 自動的に以下を表示：  
    The following items are automatically calculated:
-   - 税抜価格 / Tax-excluded price  
-   - 消費税額 / Tax amount  
-   - 手数料（1.55%）/ Handling fee (1.55%)  
-   - 免税額 / Tax refund amount  
-   - 実際の支払金額 / Final payment amount  
+   - 税抜価格 / Tax-excluded price
+   - 消費税額 / Tax amount
+   - 手数料（1.55%）/ Handling fee (1.55%)
+   - 免税額 / Tax refund amount
+   - 実際の支払金額 / Final payment amount
 4. 任意の言語ボタンで表示言語を切り替え可能  
    You can switch the language by clicking the buttons
 
@@ -62,11 +62,11 @@ The app is published on GitHub Pages and is accessible via smartphones and PC br
 ## ライセンス / License
 
 このプロジェクトは [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ja) ライセンスのもとで公開されています。  
-著作権 © 2025 ZHANG XINGTIAN  
-無断での改変・商用利用は禁止されています。  
+著作権 © 2025 XINGTIAN ZHANG  
+無断での改変・商用利用は禁止されています。
 
 This project is licensed under the [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) license.  
-Copyright © 2025 ZHANG XINGTIAN  
+Copyright © 2025 XINGTIAN ZHANG  
 Modification and commercial use are prohibited without permission.
 
 [![License: CC BY-NC-ND 4.0](https://licensebuttons.net/l/by-nc-nd/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
