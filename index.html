@@ -12,13 +12,13 @@
 
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
-            max-width: 960px;
+            padding: 0px;
+            max-width: fit-content;
             margin: auto;
         }
 
         button {
-            margin: 5px 5px 0 0;
+            margin: 0;
         }
 
         label,
@@ -45,11 +45,12 @@
         }
 
         .lang_set li {
-            margin: 5px;
+            margin: 1px;
         }
 
         button {
-            width: 100px;
+            min-width: 100px;
+            max-width: fit-content;
             height: 40px;
             font-size: 1em;
         }
@@ -69,20 +70,21 @@
 </head>
 
 <body>
-
-    <div>
-        <ul class="lang_set">
-            <li><button onclick="setLanguage('ja')">日本語</button></li>
-            <li><button onclick="setLanguage('en')">English</button></li>
-            <li><button onclick="setLanguage('zh')">中文</button></li>
-            <li><button onclick="setLanguage('zh_tw')">繁體中文</button></li>
-            <li><button onclick="setLanguage('ko')">한국어</button></li>
-            <li><button onclick="setLanguage('th')">ไทย</button></li>
-            <li><button onclick="setLanguage('fr')">Français</button></li>
-            <li><button onclick="setLanguage('ru')">Русский</button></li>
-            <li><button onclick="setLanguage('id')">Bahasa Indonesia</button></li>
-        </ul>
-    </div>
+    <header>
+        <div>
+            <ul class="lang_set">
+                <li><button onclick="setLanguage('ja')">日本語</button></li>
+                <li><button onclick="setLanguage('en')">English</button></li>
+                <li><button onclick="setLanguage('zh')">中文</button></li>
+                <li><button onclick="setLanguage('zh_tw')">繁體中文</button></li>
+                <li><button onclick="setLanguage('ko')">한국어</button></li>
+                <li><button onclick="setLanguage('th')">ไทย</button></li>
+                <li><button onclick="setLanguage('fr')">Français</button></li>
+                <li><button onclick="setLanguage('ru')">Русский</button></li>
+                <li><button onclick="setLanguage('id')">Bahasa Indonesia</button></li>
+            </ul>
+        </div>
+    </header>
 
     <div class="main_area">
         <h1 id="title">Tax Refund Calculator</h1>
@@ -198,14 +200,14 @@
                 final: "Montant final payé : "
             },
             ru: {
-                title: "Калькулятор возврата налога",
+                title: "Калькулятор вычета налога",
                 labelPrice: "Введите сумму с налогом:",
                 labelTax: "Выберите налоговую ставку:",
                 calculateBtn: "Рассчитать",
                 resultTitle: "Результаты",
                 taxExcluded: "Сумма без налога: ",
-                refund: "Сумма возврата: ",
-                fee: "Плата за обработку: ",
+                refund: "Сумма возврата налога: ",
+                fee: "Плата за обработку заявки: ",
                 final: "Фактическая сумма оплаты: "
             },
             id: {
