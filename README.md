@@ -10,11 +10,14 @@ The app is published on GitHub Pages and is accessible via smartphones and PC br
 
 ## 主な機能 / Features
 
-- 消費税率 10%・8%に対応（軽減税率あり）  
-  Supports 10% and 8% tax rates (including reduced tax rate)
+- 金額入力タイプの選択：税込価格と税抜価格、どちらを基準に計算するかを選択可能
+  Selectable Input Type: Choose whether to calculate based on the price with or without tax.
 
-- 手数料 1.55%を自動計算  
-  Automatically calculates a 1.55% handling fee
+- 消費税率 10%・8%に対応  
+  Supports 10% and 8% tax rates
+
+- 手数料 1.55%を自動計算、1 円未満は切り捨て
+  Automatically calculates a 1.55% handling fee with fractions rounded down.
 
 - 実際の支払金額・免税金額を即時表示  
   Instantly displays the actual payment and refund amount
@@ -43,19 +46,21 @@ The app is published on GitHub Pages and is accessible via smartphones and PC br
 
 ## 利用方法 / How to Use
 
-1. 商品金額を入力  
-   Enter the product price
-2. 消費税率（10% または 8%）を選択  
+1. 金額の種類を選択：「税抜金額」または「税込金額」を選択します（デフォルトは「税抜金額」）。  
+   Select Price Type: Choose "Price w/o Tax" or "Price w/ Tax" (defaults to "w/o Tax").
+2. 金額を入力：対応する入力欄に商品の金額を入力します。
+   Enter the Amount: Input the product price in the corresponding field.
+3. 消費税率（10% または 8%）を選択  
    Select the tax rate (10% or 8%)
-3. 自動的に以下を表示：  
-   The following items are automatically calculated:
-   - 税抜価格 / Tax-excluded price
-   - 消費税額 / Tax amount
+4. 「計算する」ボタンをクリック：以下の項目が自動で計算・表示されます。  
+   Click the "Calculate" Button: The following items will be calculated and displayed:
+   - 税込金額 / Price including Tax
+   - 税抜金額 / Price excluding Tax
+   - 返金金額 / Refund Amount
    - 手数料（1.55%）/ Handling fee (1.55%)
-   - 免税額 / Tax refund amount
    - 実際の支払金額 / Final payment amount
-4. 任意の言語ボタンで表示言語を切り替え可能  
-   You can switch the language by clicking the buttons
+5. 言語を切り替え：画面上部のボタンでいつでも表示言語を切り替えられます。
+   Switch Language: You can change the display language at any time using the buttons at the top.
 
 ---
 
