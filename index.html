@@ -15,10 +15,19 @@
             padding: 0px 30px 30px 30px;
             max-width: fit-content;
             margin: auto;
+            background-color: #f4f7f9;
         }
 
         button {
             margin: 0;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #e9e9e9;
         }
 
         label,
@@ -28,12 +37,15 @@
             display: block;
             margin: 10px 0;
             width: 100%;
+            font-size: 1em;
         }
 
         input,
         select {
-            padding: 8px;
+            padding: 10px;
             font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
 
         .lang_set {
@@ -42,23 +54,68 @@
             flex-wrap: wrap;
             justify-content: center;
             padding: 0;
+            margin-bottom: 20px;
         }
 
         .lang_set li {
-            margin: 1px;
+            margin: 2px;
         }
 
-        button {
-            min-width: 100px;
-            max-width: fit-content;
-            height: 40px;
-            font-size: 1em;
+        .lang_set button {
+            min-width: 80px;
+            height: 35px;
+            font-size: 0.9em;
+            padding: 5px;
+        }
+
+        #calculateBtn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        #calculateBtn:hover {
+            background-color: #0056b3;
         }
 
         .main_area {
             margin: 0 auto;
             display: grid;
             justify-content: center;
+            background-color: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #resultArea {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .result_p {
+            margin: 8px 0;
+            font-size: 1.1em;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .result_p span:last-child {
+            font-weight: bold;
+        }
+
+        .input_container {
+            margin: 10px 0;
+        }
+
+        .fee-notice {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 15px;
         }
 
         footer {
@@ -94,8 +151,20 @@
     <div class="main_area">
         <h1 id="title">Tax Refund Calculator</h1>
 
-        <label for="price" id="labelPrice">Enter the total price (incl. tax):</label>
-        <input type="number" id="price" placeholder="e.g. 1100">
+        <label for="priceType" id="labelPriceType">Select input type:</label>
+        <select id="priceType" onchange="togglePriceInput()">
+            <option value="excluded" id="optionPriceExcluded">Price excluding Tax</option>
+            <option value="included" id="optionPriceIncluded">Price including Tax</option>
+        </select>
+
+        <div id="priceExcludedContainer" class="input_container">
+            <label for="priceExcluded" id="labelPriceExcluded">Enter price (excluding Tax):</label>
+            <input type="number" id="priceExcluded" placeholder="e.g. 10000">
+        </div>
+        <div id="priceIncludedContainer" class="input_container" style="display:none;">
+            <label for="priceIncluded" id="labelPriceIncluded">Enter price (including Tax):</label>
+            <input type="number" id="priceIncluded" placeholder="e.g. 11000">
+        </div>
 
         <label for="taxRate" id="labelTax">Select tax rate:</label>
         <select id="taxRate">
@@ -105,11 +174,19 @@
 
         <button onclick="calculateRefund()" id="calculateBtn">Calculate</button>
 
-        <h2 id="resultTitle">Results</h2>
-        <p id="taxExcluded">Tax Excluded Price: </p>
-        <p id="refund">Refund Amount: </p>
-        <p id="fee">Handling Fee: </p>
-        <p id="final">Final Payment: </p>
+        <div id="resultArea">
+            <h2 id="resultTitle">Results</h2>
+            <p class="result_p"><span id="taxIncludedLabel">Price with Tax: </span><span id="taxIncludedResult"></span>
+            </p>
+            <p class="result_p"><span id="taxExcludedLabel">Price w/o Tax: </span><span id="taxExcludedResult"></span>
+            </p>
+            <p class="result_p"><span id="refundLabel">Refund Amount: </span><span id="refundResult"></span></p>
+            <p class="result_p"><span id="feeLabel">Handling Fee: </span><span id="feeResult"></span></p>
+            <p class="result_p" style="font-size: 1.2em; border-top: 1px solid #ddd; padding-top: 8px;"><span
+                    id="finalLabel">Final Payment: </span><span id="finalResult"></span></p>
+        </div>
+        <p id="feeNotice" class="fee-notice"></p>
+
     </div>
 
     <footer>
@@ -129,146 +206,255 @@
         const translations = {
             ja: {
                 title: "免税計算機",
-                labelPrice: "商品の税込金額（円）を入力してください:",
+                labelPriceType: "入力する金額の種類:",
+                optionPriceExcluded: "税抜金額",
+                optionPriceIncluded: "税込金額",
+                labelPriceExcluded: "税抜金額（円）を入力:",
+                labelPriceIncluded: "税込金額（円）を入力:",
                 labelTax: "税率を選択:",
                 calculateBtn: "計算する",
                 resultTitle: "計算結果",
-                taxExcluded: "税抜金額: ",
-                refund: "返金金額: ",
-                fee: "手数料: ",
-                final: "実際の支払額: "
+                taxIncludedLabel: "税込金額:",
+                taxExcludedLabel: "税抜金額:",
+                refundLabel: "返金金額:",
+                feeLabel: "手数料:",
+                finalLabel: "実質支払額:",
+                feeNotice: "※手数料は、税抜金額の1.55%で計算され、小数点以下は切り捨てられます。",
+                alert_invalid_price: "有効な金額を入力してください。"
             },
             en: {
                 title: "Tax Refund Calculator",
-                labelPrice: "Enter the total price (incl. tax):",
+                labelPriceType: "Select input type:",
+                optionPriceExcluded: "Price excluding Tax",
+                optionPriceIncluded: "Price including Tax",
+                labelPriceExcluded: "Enter price (excluding tax):",
+                labelPriceIncluded: "Enter price (including tax):",
                 labelTax: "Select tax rate:",
                 calculateBtn: "Calculate",
                 resultTitle: "Results",
-                taxExcluded: "Tax Excluded Price: ",
-                refund: "Refund Amount: ",
-                fee: "Handling Fee: ",
-                final: "Final Payment: "
+                taxIncludedLabel: "Price with Tax:",
+                taxExcludedLabel: "Price w/o Tax:",
+                refundLabel: "Refund Amount:",
+                feeLabel: "Handling Fee:",
+                finalLabel: "Final Payment:",
+                feeNotice: "*The handling fee is calculated at 1.55% of the price without tax, with any fraction rounded down.",
+                alert_invalid_price: "Please enter a valid price."
             },
             zh: {
                 title: "退税计算器",
-                labelPrice: "请输入商品含税金额：",
+                labelPriceType: "请选择金额类型：",
+                optionPriceExcluded: "不含税金额",
+                optionPriceIncluded: "含税金额",
+                labelPriceExcluded: "输入不含税金额：",
+                labelPriceIncluded: "输入含税金额：",
                 labelTax: "选择税率：",
                 calculateBtn: "计算",
                 resultTitle: "计算结果",
-                taxExcluded: "税前金额：",
-                refund: "退税金额：",
-                fee: "手续费：",
-                final: "实际支付金额："
+                taxIncludedLabel: "含税金额：",
+                taxExcludedLabel: "不含税金额：",
+                refundLabel: "退税金额：",
+                feeLabel: "手续费：",
+                finalLabel: "实际支付金额：",
+                feeNotice: "※手续费按不含税金额的1.55%计算，小数部分将被舍去。",
+                alert_invalid_price: "请输入有效的金额。"
             },
             zh_tw: {
                 title: "退稅計算器",
-                labelPrice: "請輸入商品含稅金額：",
+                labelPriceType: "請選擇金額類型：",
+                optionPriceExcluded: "未稅金額",
+                optionPriceIncluded: "含稅金額",
+                labelPriceExcluded: "輸入未稅金額：",
+                labelPriceIncluded: "輸入含稅金額：",
                 labelTax: "選擇稅率：",
                 calculateBtn: "計算",
                 resultTitle: "計算結果",
-                taxExcluded: "未稅金額：",
-                refund: "退稅金額：",
-                fee: "手續費：",
-                final: "實際支付金額："
+                taxIncludedLabel: "含稅金額：",
+                taxExcludedLabel: "未稅金額：",
+                refundLabel: "退稅金額：",
+                feeLabel: "手續費：",
+                finalLabel: "實際支付金額：",
+                feeNotice: "※手續費按未稅金額的1.55%計算，小數部分將被捨去。",
+                alert_invalid_price: "請輸入有效的金額。"
             },
             ko: {
                 title: "면세 계산기",
-                labelPrice: "상품의 세금 포함 금액 입력:",
+                labelPriceType: "금액 유형 선택:",
+                optionPriceExcluded: "세금 불포함 금액",
+                optionPriceIncluded: "세금 포함 금액",
+                labelPriceExcluded: "세금 불포함 금액 입력:",
+                labelPriceIncluded: "세금 포함 금액 입력:",
                 labelTax: "세율 선택:",
                 calculateBtn: "계산",
                 resultTitle: "결과",
-                taxExcluded: "세전 금액: ",
-                refund: "환급 금액: ",
-                fee: "수수료: ",
-                final: "실제 지불 금액: "
+                taxIncludedLabel: "세금 포함 금액:",
+                taxExcludedLabel: "세금 불포함 금액:",
+                refundLabel: "환급 금액:",
+                feeLabel: "수수료:",
+                finalLabel: "실제 지불 금액:",
+                feeNotice: "*수수료는 세금 불포함 금액의 1.55%로 계산되며, 소수점 이하는 버림됩니다.",
+                alert_invalid_price: "유효한 금액을 입력하십시오."
             },
             th: {
                 title: "เครื่องคำนวณภาษีคืน",
-                labelPrice: "กรอกราคารวมภาษี:",
+                labelPriceType: "เลือกประเภทราคา:",
+                optionPriceExcluded: "ราคาไม่รวมภาษี",
+                optionPriceIncluded: "ราคารวมภาษี",
+                labelPriceExcluded: "กรอกราคาไม่รวมภาษี:",
+                labelPriceIncluded: "กรอกราคารวมภาษี:",
                 labelTax: "เลือกอัตราภาษี:",
                 calculateBtn: "คำนวณ",
                 resultTitle: "ผลลัพธ์",
-                taxExcluded: "ราคาก่อนภาษี: ",
-                refund: "จำนวนเงินคืนภาษี: ",
-                fee: "ค่าธรรมเนียม: ",
-                final: "จำนวนที่ต้องชำระจริง: "
+                taxIncludedLabel: "ราคารวมภาษี:",
+                taxExcludedLabel: "ราคาไม่รวมภาษี:",
+                refundLabel: "จำนวนเงินคืนภาษี:",
+                feeLabel: "ค่าธรรมเนียม:",
+                finalLabel: "จำนวนที่ต้องชำระจริง:",
+                feeNotice: "*ค่าธรรมเนียมคำนวณจาก 1.55% ของราคาไม่รวมภาษี และเศษสตางค์จะถูกปัดลง",
+                alert_invalid_price: "กรุณากรอกราคาที่ถูกต้อง"
             },
             fr: {
                 title: "Calculateur de remboursement de taxe",
-                labelPrice: "Entrez le prix TTC :",
+                labelPriceType: "Sélectionnez le type de montant :",
+                optionPriceExcluded: "Prix hors taxe",
+                optionPriceIncluded: "Prix TTC",
+                labelPriceExcluded: "Entrez le prix hors taxe :",
+                labelPriceIncluded: "Entrez le prix TTC :",
                 labelTax: "Sélectionnez le taux de TVA :",
                 calculateBtn: "Calculer",
                 resultTitle: "Résultats",
-                taxExcluded: "Prix hors taxe : ",
-                refund: "Montant du remboursement : ",
-                fee: "Frais de traitement : ",
-                final: "Montant final payé : "
+                taxIncludedLabel: "Prix TTC :",
+                taxExcludedLabel: "Prix hors taxe :",
+                refundLabel: "Montant du remboursement :",
+                feeLabel: "Frais de traitement :",
+                finalLabel: "Montant final payé :",
+                feeNotice: "*Les frais de traitement sont calculés à 1,55 % du prix hors taxe et toute fraction est arrondie à l'inférieur.",
+                alert_invalid_price: "Veuillez entrer un prix valide."
             },
             ru: {
                 title: "Калькулятор вычета налога",
-                labelPrice: "Введите сумму с налогом:",
+                labelPriceType: "Выберите тип суммы:",
+                optionPriceExcluded: "Сумма без налога",
+                optionPriceIncluded: "Сумма с налогом",
+                labelPriceExcluded: "Введите сумму без налога:",
+                labelPriceIncluded: "Введите сумму с налогом:",
                 labelTax: "Выберите налоговую ставку:",
                 calculateBtn: "Рассчитать",
                 resultTitle: "Результаты",
-                taxExcluded: "Сумма без налога: ",
-                refund: "Сумма возврата налога: ",
-                fee: "Плата за обработку заявки: ",
-                final: "Фактическая сумма оплаты: "
+                taxIncludedLabel: "Сумма с налогом:",
+                taxExcludedLabel: "Сумма без налога:",
+                refundLabel: "Сумма возврата налога:",
+                feeLabel: "Плата за обработку заявки:",
+                finalLabel: "Фактическая сумма оплаты:",
+                feeNotice: "*Плата за обработку рассчитывается как 1,55% от суммы без налога, любая дробная часть округляется в меньшую сторону.",
+                alert_invalid_price: "Пожалуйста, введите действительную сумму."
             },
             id: {
                 title: "Kalkulator Pengembalian Pajak",
-                labelPrice: "Masukkan harga termasuk pajak:",
+                labelPriceType: "Pilih jenis harga:",
+                optionPriceExcluded: "Harga sebelum Pajak",
+                optionPriceIncluded: "Harga termasuk Pajak",
+                labelPriceExcluded: "Masukkan harga sebelum pajak:",
+                labelPriceIncluded: "Masukkan harga termasuk pajak:",
                 labelTax: "Pilih tarif pajak:",
                 calculateBtn: "Hitung",
                 resultTitle: "Hasil",
-                taxExcluded: "Harga sebelum pajak: ",
-                refund: "Jumlah pengembalian pajak: ",
-                fee: "Biaya penanganan: ",
-                final: "Jumlah pembayaran akhir: "
+                taxIncludedLabel: "Harga termasuk Pajak:",
+                taxExcludedLabel: "Harga sebelum Pajak:",
+                refundLabel: "Jumlah pengembalian pajak:",
+                feeLabel: "Biaya penanganan:",
+                finalLabel: "Jumlah pembayaran akhir:",
+                feeNotice: "*Biaya penanganan dihitung sebesar 1,55% dari harga sebelum pajak, dengan setiap pecahan dibulatkan ke bawah.",
+                alert_invalid_price: "Silakan masukkan harga yang valid."
             }
         };
 
-        let currentLang = "en";
+        let currentLang = "ja";
 
         function setLanguage(lang) {
+            if (!translations[lang]) lang = 'en';
             currentLang = lang;
             const t = translations[lang];
+
             document.getElementById("title").innerText = t.title;
-            document.getElementById("labelPrice").innerText = t.labelPrice;
+            document.getElementById("labelPriceType").innerText = t.labelPriceType;
+            document.getElementById("optionPriceExcluded").innerText = t.optionPriceExcluded;
+            document.getElementById("optionPriceIncluded").innerText = t.optionPriceIncluded;
+            document.getElementById("labelPriceExcluded").innerText = t.labelPriceExcluded;
+            document.getElementById("labelPriceIncluded").innerText = t.labelPriceIncluded;
             document.getElementById("labelTax").innerText = t.labelTax;
             document.getElementById("calculateBtn").innerText = t.calculateBtn;
             document.getElementById("resultTitle").innerText = t.resultTitle;
-            document.getElementById("taxExcluded").innerText = t.taxExcluded;
-            document.getElementById("refund").innerText = t.refund;
-            document.getElementById("fee").innerText = t.fee;
-            document.getElementById("final").innerText = t.final;
+
+            document.getElementById("taxIncludedLabel").innerText = t.taxIncludedLabel;
+            document.getElementById("taxExcludedLabel").innerText = t.taxExcludedLabel;
+            document.getElementById("refundLabel").innerText = t.refundLabel;
+            document.getElementById("feeLabel").innerText = t.feeLabel;
+            document.getElementById("finalLabel").innerText = t.finalLabel;
+            document.getElementById("feeNotice").innerText = t.feeNotice;
+        }
+
+        function togglePriceInput() {
+            const priceType = document.getElementById('priceType').value;
+            if (priceType === 'included') {
+                document.getElementById('priceIncludedContainer').style.display = 'block';
+                document.getElementById('priceExcludedContainer').style.display = 'none';
+            } else {
+                document.getElementById('priceExcludedContainer').style.display = 'block';
+                document.getElementById('priceIncludedContainer').style.display = 'none';
+            }
         }
 
         function calculateRefund() {
-            const price = parseFloat(document.getElementById('price').value);
+            const priceType = document.getElementById('priceType').value;
             const taxRate = parseFloat(document.getElementById('taxRate').value);
 
-            if (isNaN(price) || price <= 0) {
-                alert("Please enter a valid price.");
-                return;
+            let priceIncluded, priceExcluded;
+
+            if (priceType === 'included') {
+                priceIncluded = parseFloat(document.getElementById('priceIncluded').value);
+                if (isNaN(priceIncluded) || priceIncluded <= 0) {
+                    alert(translations[currentLang].alert_invalid_price);
+                    return;
+                }
+                priceExcluded = priceIncluded / (1 + taxRate);
+            } else {
+                priceExcluded = parseFloat(document.getElementById('priceExcluded').value);
+                if (isNaN(priceExcluded) || priceExcluded <= 0) {
+                    alert(translations[currentLang].alert_invalid_price);
+                    return;
+                }
+                priceIncluded = priceExcluded * (1 + taxRate);
             }
 
-            const taxExcluded = price / (1 + taxRate);
-            const taxAmount = price - taxExcluded;
-            const fee = taxExcluded * 0.0155;
-            const refund = taxAmount - fee;
-            const finalPrice = price - refund;
+            const taxAmount = priceIncluded - priceExcluded;
 
-            const t = translations[currentLang];
-            document.getElementById("taxExcluded").innerText = `${t.taxExcluded}¥${taxExcluded.toFixed(2)}`;
-            document.getElementById("refund").innerText = `${t.refund}¥${refund.toFixed(2)}`;
-            document.getElementById("fee").innerText = `${t.fee}¥${fee.toFixed(2)}`;
-            document.getElementById("final").innerText = `${t.final}¥${finalPrice.toFixed(2)}`;
+            const fee = Math.floor(priceExcluded * 0.0155);
+
+            const refund = Math.floor(taxAmount - fee);
+            const finalPrice = Math.floor(priceIncluded - refund);
+
+            document.getElementById("taxIncludedResult").innerText = `¥${Math.round(priceIncluded).toLocaleString()}`;
+            document.getElementById("taxExcludedResult").innerText = `¥${Math.round(priceExcluded).toLocaleString()}`;
+            document.getElementById("refundResult").innerText = `¥${refund.toLocaleString()}`;
+            document.getElementById("feeResult").innerText = `¥${fee.toLocaleString()}`;
+            document.getElementById("finalResult").innerText = `¥${finalPrice.toLocaleString()}`;
         }
 
-        setLanguage('en');
-    </script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('priceType').value = 'excluded';
+            togglePriceInput();
 
+            const userLang = (navigator.language || navigator.userLanguage).split('-')[0];
+            const langMap = {
+                'zh': (navigator.language || navigator.userLanguage).toLowerCase().includes('tw') ? 'zh_tw' : 'zh',
+                'ja': 'ja', 'ko': 'ko', 'th': 'th', 'fr': 'fr', 'ru': 'ru', 'id': 'id'
+            };
+            const targetLang = langMap[userLang] || 'en';
+            setLanguage(targetLang);
+
+        });
+
+    </script>
 </body>
 
 </html>
