@@ -6,8 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tax Refund Calculator</title>
     <style>
-        * {
+        /* Button styles partially referenced from JAJAAAN https://jajaaan.co.jp/css/button/ */
+        *,
+        *:before,
+        *:after {
+            -webkit-box-sizing: inherit;
+            box-sizing: inherit;
+        }
+
+        html {
+            -webkit-box-sizing: border-box;
             box-sizing: border-box;
+            /* font-size: 62.5%; */
         }
 
         body {
@@ -15,19 +25,120 @@
             padding: 0px 30px 30px 30px;
             max-width: fit-content;
             margin: auto;
-            background-color: #f4f7f9;
+            background-color: #fbfbfb;
         }
 
-        button {
-            margin: 0;
+        .btn,
+        a.btn,
+        button.btn {
+            font-size: 1em;
+            font-weight: 700;
+            line-height: .2;
+            position: relative;
+            display: inline-block;
+            padding: 1em 1rem;
             cursor: pointer;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            transition: background-color 0.2s;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-transition: all 0.3s;
+            transition: all 0.3s;
+            text-align: center;
+            vertical-align: middle;
+            text-decoration: none;
+            letter-spacing: 0.1em;
+            color: #212529;
+            border-radius: 0.5rem;
         }
 
-        button:hover {
-            background-color: #e9e9e9;
+        a.btn-border {
+            margin-bottom: 12px;
+            padding: 0;
+
+            -webkit-transition: all 0.3s;
+
+            transition: all 0.3s;
+
+            border-radius: 0;
+        }
+
+        a.btn-border span {
+            position: relative;
+
+            display: block;
+
+            padding: 1.25em 1.2em;
+
+            color: #000;
+            border: 2px solid #000;
+            border-radius: 0.5em;
+            background: #fefefe;
+        }
+
+        a.btn-border:before {
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+
+            display: block;
+
+            width: 100%;
+            height: 14px;
+
+            content: "";
+            -webkit-transition: all 0.3s;
+            transition: all 0.3s;
+
+            border: 2px solid #000;
+            border-top: 1px solid #000;
+            border-radius: 0 0 0.5rem 0.5rem;
+            background-image: -webkit-repeating-linear-gradient(135deg,
+                    #000,
+                    #000 1px,
+                    transparent 2px,
+                    transparent 5px);
+            background-image: repeating-linear-gradient(-45deg,
+                    #000,
+                    #000 1px,
+                    transparent 2px,
+                    transparent 5px);
+            background-size: 7px 7px;
+
+            -webkit-backface-visibility: hidden;
+
+            backface-visibility: hidden;
+        }
+
+        a.btn-border:hover {
+            -webkit-transform: translate(0, 3px);
+            transform: translate(0, 3px);
+        }
+
+        a.btn-border:hover:before {
+            bottom: -5px;
+        }
+
+        a.btn-border:active {
+            -webkit-transform: translate(0, 7px);
+            transform: translate(0, 7px);
+        }
+
+        a.btn-border:active:before {
+            bottom: -1px;
+        }
+
+        a.btn-border.active span {
+            background: #3e3a36;
+            color: #fff;
+        }
+
+        a.btn-border.active {
+            transform: translate(0, 3px);
+        }
+
+        a.btn-border.active:before {
+            bottom: -5px;
         }
 
         label,
@@ -69,12 +180,15 @@
         }
 
         #calculateBtn {
-            background-color: #007bff;
-            color: white;
-            border: none;
+            background: #007bff;
+            border: 2px solid #0056b3;
+            color: #fff;
             padding: 12px;
-            border-radius: 4px;
-            font-weight: bold;
+            border-radius: .5em;
+            font-weight: 700;
+            transition: all 0.3s;
+            cursor: pointer;
+            letter-spacing: 0.1em;
         }
 
         #calculateBtn:hover {
@@ -85,10 +199,20 @@
             margin: 0 auto;
             display: grid;
             justify-content: center;
-            background-color: white;
+            background-color: #fefefe;
             padding: 20px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: .5em;
+            /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+            border: 2px solid #000;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
         }
 
         #resultArea {
@@ -135,27 +259,45 @@
     <header>
         <div>
             <ul class="lang_set">
-                <li><button onclick="setLanguage('ja')">日本語</button></li>
-                <li><button onclick="setLanguage('en')">English</button></li>
-                <li><button onclick="setLanguage('zh')">中文</button></li>
-                <li><button onclick="setLanguage('zh_tw')">繁體中文</button></li>
-                <li><button onclick="setLanguage('ko')">한국어</button></li>
-                <li><button onclick="setLanguage('th')">ไทย</button></li>
-                <li><button onclick="setLanguage('fr')">Français</button></li>
-                <li><button onclick="setLanguage('ru')">Русский</button></li>
-                <li><button onclick="setLanguage('id')">Bahasa Indonesia</button></li>
+                <li><a class="btn btn-border" onclick="setLanguage('ja')"><span>日本語</span></a></li>
+                <li><a class="btn btn-border" onclick="setLanguage('en')"><span>English</span></a></li>
+                <li><a class="btn btn-border" onclick="setLanguage('zh')"><span>中文</span></a></li>
+                <li><a class="btn btn-border" onclick="setLanguage('zh_tw')"><span>繁體中文</span></a></li>
+                <li><a class="btn btn-border" onclick="setLanguage('ko')"><span>한국어</span></a></li>
+                <li><a class="btn btn-border" onclick="setLanguage('th')"><span>ไทย</span></a></li>
+                <li><a class="btn btn-border" onclick="setLanguage('fr')"><span>Français</span></a></li>
+                <li><a class="btn btn-border" onclick="setLanguage('ru')"><span>Русский</span></a></li>
+                <li><a class="btn btn-border" onclick="setLanguage('id')"><span>Bahasa Indonesia</span></a></li>
             </ul>
         </div>
     </header>
 
     <div class="main_area">
-        <h1 id="title">Tax Refund Calculator</h1>
+        <h1 id="title" style="justify-self: center;">Tax Refund Calculator</h1>
 
         <label for="priceType" id="labelPriceType">Select input type:</label>
-        <select id="priceType" onchange="togglePriceInput()">
+        <select id="priceType" style="display:none" onchange="togglePriceInput()">
             <option value="excluded" id="optionPriceExcluded">Price excluding Tax</option>
             <option value="included" id="optionPriceIncluded">Price including Tax</option>
         </select>
+        <div class="button-group" style="margin: 10px 0;">
+            <a id="btnExcluded" class="btn btn-border" onclick="setPriceType('excluded')">
+                <span id="btnExcludedText">Price excluding Tax</span>
+            </a>
+            <a id="btnIncluded" class="btn btn-border" onclick="setPriceType('included')">
+                <span id="btnIncludedText">Price including Tax</span>
+            </a>
+        </div>
+
+        <label for="taxRate" id="labelTax">Select tax rate:</label>
+        <select id="taxRate" style="display: none;">
+            <option value="0.10">10%</option>
+            <option value="0.08">8%</option>
+        </select>
+        <div class="button-group" style="margin: 10px 0;">
+            <a id="btnTax10" class="btn btn-border" onclick="setTaxRate('0.10')"><span>10%</span></a>
+            <a id="btnTax8" class="btn btn-border" onclick="setTaxRate('0.08')"><span>8%</span></a>
+        </div>
 
         <div id="priceExcludedContainer" class="input_container">
             <label for="priceExcluded" id="labelPriceExcluded">Enter price (excluding Tax):</label>
@@ -166,11 +308,7 @@
             <input type="number" id="priceIncluded" placeholder="e.g. 11000">
         </div>
 
-        <label for="taxRate" id="labelTax">Select tax rate:</label>
-        <select id="taxRate">
-            <option value="0.10">10%</option>
-            <option value="0.08">8%</option>
-        </select>
+
 
         <button onclick="calculateRefund()" id="calculateBtn">Calculate</button>
 
@@ -186,7 +324,6 @@
                     id="finalLabel">Final Payment: </span><span id="finalResult"></span></p>
         </div>
         <p id="feeNotice" class="fee-notice"></p>
-
     </div>
 
     <footer>
@@ -232,8 +369,8 @@
                 labelTax: "Select tax rate:",
                 calculateBtn: "Calculate",
                 resultTitle: "Results",
-                taxIncludedLabel: "Price with Tax:",
-                taxExcludedLabel: "Price w/o Tax:",
+                taxIncludedLabel: "Price including Tax",
+                taxExcludedLabel: "Price excluding Tax",
                 refundLabel: "Refund Amount:",
                 feeLabel: "Handling Fee:",
                 finalLabel: "Final Payment:",
@@ -333,15 +470,15 @@
             ru: {
                 title: "Калькулятор вычета налога",
                 labelPriceType: "Выберите тип суммы:",
-                optionPriceExcluded: "Сумма без налога",
-                optionPriceIncluded: "Сумма с налогом",
+                optionPriceExcluded: "Цена без учета налога",
+                optionPriceIncluded: "Цена с учетом налога",
                 labelPriceExcluded: "Введите сумму без налога:",
                 labelPriceIncluded: "Введите сумму с налогом:",
                 labelTax: "Выберите налоговую ставку:",
                 calculateBtn: "Рассчитать",
                 resultTitle: "Результаты",
-                taxIncludedLabel: "Сумма с налогом:",
-                taxExcludedLabel: "Сумма без налога:",
+                taxIncludedLabel: "Цена с учетом налога:",
+                taxExcludedLabel: "Цена без учета налога:",
                 refundLabel: "Сумма возврата налога:",
                 feeLabel: "Плата за обработку заявки:",
                 finalLabel: "Фактическая сумма оплаты:",
@@ -391,7 +528,23 @@
             document.getElementById("feeLabel").innerText = t.feeLabel;
             document.getElementById("finalLabel").innerText = t.finalLabel;
             document.getElementById("feeNotice").innerText = t.feeNotice;
+
+            document.getElementById("btnExcludedText").innerText = t.optionPriceExcluded;
+            document.getElementById("btnIncludedText").innerText = t.optionPriceIncluded;
+
+            document.querySelectorAll('.lang_set a.btn-border').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const langBtns = document.querySelectorAll('.lang_set a.btn-border');
+            langBtns.forEach(btn => {
+                if (btn.textContent.trim() === t.title || btn.textContent.trim() === translations[lang].title || btn.textContent.trim() === translations[lang].title) return;
+                if (btn.getAttribute('onclick') === `setLanguage('${lang}')`) {
+                    btn.classList.add('active');
+                }
+            });
         }
+
 
         function togglePriceInput() {
             const priceType = document.getElementById('priceType').value;
@@ -427,9 +580,7 @@
             }
 
             const taxAmount = priceIncluded - priceExcluded;
-
             const fee = Math.floor(priceExcluded * 0.0155);
-
             const refund = Math.floor(taxAmount - fee);
             const finalPrice = Math.floor(priceIncluded - refund);
 
@@ -440,8 +591,23 @@
             document.getElementById("finalResult").innerText = `¥${finalPrice.toLocaleString()}`;
         }
 
+        function setPriceType(type) {
+            document.getElementById('priceType').value = type;
+            document.getElementById('btnExcluded').classList.toggle('active', type === 'excluded');
+            document.getElementById('btnIncluded').classList.toggle('active', type === 'included');
+            togglePriceInput();
+        }
+
+        function setTaxRate(rate) {
+            document.getElementById('taxRate').value = rate;
+            document.getElementById('btnTax10').classList.toggle('active', rate === '0.10');
+            document.getElementById('btnTax8').classList.toggle('active', rate === '0.08');
+        }
+
+
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('priceType').value = 'excluded';
+            setPriceType('excluded');
+            setTaxRate('0.10');
             togglePriceInput();
 
             const userLang = (navigator.language || navigator.userLanguage).split('-')[0];

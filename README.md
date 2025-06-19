@@ -44,6 +44,13 @@ The app is published on GitHub Pages and is accessible via smartphones and PC br
 
 ---
 
+## 参考リソース / References
+
+- ボタンスタイルは [JAJAAAN](https://jajaaan.co.jp/css/button/) を参考にしています。
+- Button styles are referenced from [JAJAAAN](https://jajaaan.co.jp/css/button/)
+
+---
+
 ## 利用方法 / How to Use
 
 1. 金額の種類を選択：「税抜金額」または「税込金額」を選択します（デフォルトは「税抜金額」）。  
