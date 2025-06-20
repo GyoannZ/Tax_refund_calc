@@ -278,15 +278,15 @@
 
         <label for="priceType" id="labelPriceType">Select input type:</label>
         <select id="priceType" style="display:none" onchange="togglePriceInput()">
-            <option value="excluded" id="optionPriceExcluded">Price excluding Tax</option>
-            <option value="included" id="optionPriceIncluded">Price including Tax</option>
+            <option value="excluded" id="optionPriceExcluded">Tax-excluded price</option>
+            <option value="included" id="optionPriceIncluded">Tax-included price</option>
         </select>
         <div class="button-group" style="margin: 10px 0;">
             <a id="btnExcluded" class="btn btn-border" onclick="setPriceType('excluded')">
-                <span id="btnExcludedText">Price excluding Tax</span>
+                <span id="btnExcludedText">Tax-excluded price</span>
             </a>
             <a id="btnIncluded" class="btn btn-border" onclick="setPriceType('included')">
-                <span id="btnIncludedText">Price including Tax</span>
+                <span id="btnIncludedText">Tax-included price</span>
             </a>
         </div>
 
@@ -317,7 +317,8 @@
             <h2 id="resultTitle">Results</h2>
             <p class="result_p"><span id="taxIncludedLabel">Price with Tax: </span><span id="taxIncludedResult"></span>
             </p>
-            <p class="result_p"><span id="taxExcludedLabel">Price w/o Tax: </span><span id="taxExcludedResult"></span>
+            <p class="result_p"><span id="taxExcludedLabel">Price without Tax: </span><span
+                    id="taxExcludedResult"></span>
             </p>
             <p class="result_p"><span id="refundLabel">Refund Amount: </span><span id="refundResult"></span></p>
             <p class="result_p"><span id="feeLabel">Handling Fee: </span><span id="feeResult"></span></p>
@@ -363,15 +364,15 @@
             en: {
                 title: "Tax Refund Calculator",
                 labelPriceType: "Select input type:",
-                optionPriceExcluded: "Price excluding Tax",
-                optionPriceIncluded: "Price including Tax",
+                optionPriceExcluded: "Tax-excluded price",
+                optionPriceIncluded: "Tax-included price",
                 labelPriceExcluded: "Enter price (excluding tax):",
                 labelPriceIncluded: "Enter price (including tax):",
                 labelTax: "Select tax rate:",
                 calculateBtn: "Calculate",
                 resultTitle: "Results",
-                taxIncludedLabel: "Price including Tax",
-                taxExcludedLabel: "Price excluding Tax",
+                taxIncludedLabel: "Tax-included price",
+                taxExcludedLabel: "Tax-excluded price",
                 refundLabel: "Refund Amount:",
                 feeLabel: "Handling Fee:",
                 finalLabel: "Final Payment:",

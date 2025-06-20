@@ -54,15 +54,15 @@ The app is published on GitHub Pages and is accessible via smartphones and PC br
 ## 利用方法 / How to Use
 
 1. 金額の種類を選択：「税抜金額」または「税込金額」を選択します（デフォルトは「税抜金額」）。  
-   Select Price Type: Choose "Price w/o Tax" or "Price w/ Tax" (defaults to "w/o Tax").
+   Select Price Type: Choose "Tax-excluded price" or "Tax-included price" (defaults to "excluding Tax").
 2. 金額を入力：対応する入力欄に商品の金額を入力します。
    Enter the Amount: Input the product price in the corresponding field.
 3. 消費税率（10% または 8%）を選択  
    Select the tax rate (10% or 8%)
 4. 「計算する」ボタンをクリック：以下の項目が自動で計算・表示されます。  
    Click the "Calculate" Button: The following items will be calculated and displayed:
-   - 税込金額 / Price including Tax
-   - 税抜金額 / Price excluding Tax
+   - 税込金額 / Tax-included price
+   - 税抜金額 / Tax-excluded price
    - 返金金額 / Refund Amount
    - 手数料（1.55%）/ Handling fee (1.55%)
    - 実際の支払金額 / Final payment amount
